@@ -32,6 +32,23 @@ class Validation {
     this.#checkMovingRange(moving);
     this.#checkMovingLength(moving);
   }
+
+  #checkRetryRange(retry) {
+    if (/^[U|D]/g.test(retry) === false) {
+      throw new Error(`[ERROR] R 혹은 Q 만 입력해주세요.`);
+    }
+  }
+
+  #checkRetryLength(retry) {
+    if (retry.length !== 1) {
+      throw new Error(`[ERROR] R 혹은 Q 한 글자만 입력해주세요.`);
+    }
+  }
+
+  checkRetry(retry) {
+    this.#checkRetryRange(retry);
+    this.#checkRetryLength(retry);
+  }
 }
 
 module.exports = Validation;
