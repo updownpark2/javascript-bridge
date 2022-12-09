@@ -52,7 +52,7 @@ class BridgeController {
     InputView.readMoving((moving) => {
       if (this.#checkMoving(moving, bridge) !== false) {
         const result = this.#getResult(bridge, moving);
-        console.log(result);
+        this.#printResult(result);
         this.#getMoving(bridge);
       }
     });
@@ -73,6 +73,10 @@ class BridgeController {
     this.#bridgeGame.move(bridge, moving);
 
     return this.#bridgeGame.getResult();
+  }
+
+  #printResult(result) {
+    OutputView.printMap(result);
   }
 }
 
