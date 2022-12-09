@@ -34,7 +34,7 @@ class Validation {
   }
 
   #checkRetryRange(retry) {
-    if (/^[U|D]/g.test(retry) === false) {
+    if (/^[R|Q]/g.test(retry) === false) {
       throw new Error(`[ERROR] R 혹은 Q 만 입력해주세요.`);
     }
   }

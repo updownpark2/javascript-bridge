@@ -24,7 +24,6 @@ class BridgeController {
       if (this.#checkBridgeSize(bridgeSize) !== false) {
         const bridge = this.#getBridge(bridgeSize);
         this.#getMoving(bridge);
-        console.log(bridge);
       }
     });
   }
@@ -61,7 +60,7 @@ class BridgeController {
   #keepGoingOrStop(result, bridge) {
     const tryCount = this.#bridgeGame.getTryCount();
     if (this.#isFail(result)) {
-      return this.#getRetry();
+      return this.#getRetry(bridge);
     }
     if (this.#isComplete(result, bridge)) {
       return this.#printFinalResult(result, "성공", tryCount);
@@ -92,11 +91,10 @@ class BridgeController {
   }
 
   #isFail(result) {
-    result.forEach((resultArr) => {
-      if (resultArr.includes(`X`)) {
-        return true;
-      }
-    });
+    const checkResult = [...result[0], ...result[1]];
+    if (checkResult.includes("X")) {
+      return true;
+    }
   }
 
   #isComplete(result, bridge) {
@@ -105,13 +103,23 @@ class BridgeController {
     }
   }
 
-  #getRetry() {
+  #getRetry(bridge) {
     InputView.readGameCommand((retry) => {
-      console.log(retry);
+      this.#validation.checkRetry(retry);
+      this.#retryOrEnd(retry, bridge);
     });
   }
   #printFinalResult(result, passOrFail, tryCount) {
     OutputView.printResult(result, passOrFail, tryCount);
+  }
+
+  #retryOrEnd(retry, bridge) {
+    if (this.#bridgeGame.isRetry(retry)) {
+      this.#bridgeGame.retry();
+      this.#getMoving(bridge);
+      return;
+    }
+    OutputView.printEnd();
   }
 }
 
