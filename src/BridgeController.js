@@ -53,9 +53,21 @@ class BridgeController {
       if (this.#checkMoving(moving, bridge) !== false) {
         const result = this.#getResult(bridge, moving);
         this.#printResult(result);
-        this.#getMoving(bridge);
+        this.#keepGoingOrStop(result, bridge);
       }
     });
+  }
+
+  #keepGoingOrStop(result, bridge) {
+    const tryCount = this.#bridgeGame.getTryCount();
+    if (this.#isFail(result)) {
+      return this.#getRetry();
+    }
+    if (this.#isComplete(result, bridge)) {
+      return this.#printFinalResult(result, "성공", tryCount);
+    }
+
+    return this.#getMoving(bridge);
   }
 
   #checkMoving(moving, bridge) {
@@ -77,6 +89,29 @@ class BridgeController {
 
   #printResult(result) {
     OutputView.printMap(result);
+  }
+
+  #isFail(result) {
+    result.forEach((resultArr) => {
+      if (resultArr.includes(`X`)) {
+        return true;
+      }
+    });
+  }
+
+  #isComplete(result, bridge) {
+    if (result[0].length === bridge.length) {
+      return true;
+    }
+  }
+
+  #getRetry() {
+    InputView.readGameCommand((retry) => {
+      console.log(retry);
+    });
+  }
+  #printFinalResult(result, passOrFail, tryCount) {
+    OutputView.printResult(result, passOrFail, tryCount);
   }
 }
 
