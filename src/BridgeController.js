@@ -20,7 +20,7 @@ class BridgeController {
     InputView.readBridgeSize((bridgeSize) => {
       if (this.#checkBridgeSize(bridgeSize) !== false) {
         const bridge = this.#getBridge(bridgeSize);
-        console.log(bridge);
+        this.#getMoving();
       }
     });
   }
@@ -45,7 +45,22 @@ class BridgeController {
   }
 
   #getMoving() {
-    InputView.readMoving((moving) => {});
+    InputView.readMoving((moving) => {
+      if (this.#checkMoving(moving) !== false) {
+        console.log("asd");
+      }
+    });
+  }
+
+  #checkMoving(moving) {
+    try {
+      this.#validation.checkMoving(moving);
+    } catch (error) {
+      this.#validationFailAndShowError(error);
+      this.#getMoving();
+
+      return false;
+    }
   }
 }
 

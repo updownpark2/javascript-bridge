@@ -15,6 +15,23 @@ class Validation {
     this.#checkBridgeSizeOnlyNum(bridgeSize);
     this.#checkBridgeSizeRange(bridgeSize);
   }
+
+  #checkMovingRange(moving) {
+    if (/^[U|D]/g.test(moving) === false) {
+      throw new Error(`[ERROR] U 혹은 D 만 입력해주세요.`);
+    }
+  }
+
+  #checkMovingLength(moving) {
+    if (moving.length !== 1) {
+      throw new Error(`[ERROR] U 혹은 D 한 글자만 입력해주세요.`);
+    }
+  }
+
+  checkMoving(moving) {
+    this.#checkMovingRange(moving);
+    this.#checkMovingLength(moving);
+  }
 }
 
 module.exports = Validation;
