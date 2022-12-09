@@ -3,9 +3,12 @@ const InputView = require(`./InputView`);
 const Validation = require(`./Validation`);
 const BridgeMaker = require(`./BridgeMaker`);
 const BridgeRandomNumberGenerator = require(`./BridgeRandomNumberGenerator`);
+const BridgeGame = require("./BridgeGame");
 
 class BridgeController {
   #validation = new Validation();
+
+  #bridgeGame = new BridgeGame();
 
   start() {
     this.#printStartMent();
@@ -20,7 +23,8 @@ class BridgeController {
     InputView.readBridgeSize((bridgeSize) => {
       if (this.#checkBridgeSize(bridgeSize) !== false) {
         const bridge = this.#getBridge(bridgeSize);
-        this.#getMoving();
+        this.#getMoving(bridge);
+        console.log(bridge);
       }
     });
   }
@@ -44,23 +48,31 @@ class BridgeController {
     return BridgeMaker.makeBridge(size, BridgeRandomNumberGenerator.generate);
   }
 
-  #getMoving() {
+  #getMoving(bridge) {
     InputView.readMoving((moving) => {
-      if (this.#checkMoving(moving) !== false) {
-        console.log("asd");
+      if (this.#checkMoving(moving, bridge) !== false) {
+        const result = this.#getResult(bridge, moving);
+        console.log(result);
+        this.#getMoving(bridge);
       }
     });
   }
 
-  #checkMoving(moving) {
+  #checkMoving(moving, bridge) {
     try {
       this.#validation.checkMoving(moving);
     } catch (error) {
       this.#validationFailAndShowError(error);
-      this.#getMoving();
+      this.#getMoving(bridge);
 
       return false;
     }
+  }
+
+  #getResult(bridge, moving) {
+    this.#bridgeGame.move(bridge, moving);
+
+    return this.#bridgeGame.getResult();
   }
 }
 
