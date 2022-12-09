@@ -19,10 +19,7 @@ class BridgeController {
   #getBridgeSize() {
     InputView.readBridgeSize((bridgeSize) => {
       if (this.#checkBridgeSize(bridgeSize) !== false) {
-        const bridge = this.#getBridge(
-          bridgeSize,
-          BridgeRandomNumberGenerator.generate
-        );
+        const bridge = this.#getBridge(bridgeSize);
         console.log(bridge);
       }
     });
@@ -43,8 +40,12 @@ class BridgeController {
     OutputView.showError(error);
   }
 
-  #getBridge(size, generateRandomNumber) {
-    return BridgeMaker.makeBridge(size, generateRandomNumber);
+  #getBridge(size) {
+    return BridgeMaker.makeBridge(size, BridgeRandomNumberGenerator.generate);
+  }
+
+  #getMoving() {
+    InputView.readMoving((moving) => {});
   }
 }
 
