@@ -4,6 +4,7 @@
 class BridgeGame {
   #index = 0;
   #result = [[], []];
+  #tryCount = 1;
   /**
    * 사용자가 칸을 이동할 때 사용하는 메서드
    * <p>
@@ -13,7 +14,11 @@ class BridgeGame {
     this.#index = this.#index + 1;
   }
 
-  #isPassOrNot(bridge, moving) {
+  #tryCountUp() {
+    this.#tryCount = this.#tryCount + 1;
+  }
+
+  isPassOrNot(bridge, moving) {
     if (bridge[this.#index] === moving) {
       return true;
     }
@@ -43,12 +48,15 @@ class BridgeGame {
   }
 
   move(bridge, moving) {
-    if (this.#isPassOrNot(bridge, moving) === true) {
+    if (this.isPassOrNot(bridge, moving) === true) {
       this.#pass(moving);
       this.#indexUp();
       return;
     }
     this.#fail(moving);
+  }
+  getTryCount() {
+    return this.#tryCount;
   }
 
   getResult() {
