@@ -18,7 +18,7 @@ class BridgeGame {
     this.#tryCount = this.#tryCount + 1;
   }
 
-  isPassOrNot(bridge, moving) {
+  #isPassOrNot(bridge, moving) {
     if (bridge[this.#index] === moving) {
       return true;
     }
@@ -48,7 +48,7 @@ class BridgeGame {
   }
 
   move(bridge, moving) {
-    if (this.isPassOrNot(bridge, moving) === true) {
+    if (this.#isPassOrNot(bridge, moving) === true) {
       this.#pass(moving);
       this.#indexUp();
       return;

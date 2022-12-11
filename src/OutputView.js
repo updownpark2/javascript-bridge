@@ -35,8 +35,8 @@ const OutputView = {
     Console.print(`[ ${upArr} ]`);
     Console.print(`[ ${downArr} ]\n`);
 
-    Console.print(`게임 성공 여부 : ${passOrFail}`);
-    Console.print(`총 시도한 횟수 : ${tryCount}`);
+    Console.print(`게임 성공 여부: ${passOrFail}`);
+    Console.print(`총 시도한 횟수: ${tryCount}`);
   },
 
   printEnd() {
